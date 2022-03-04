@@ -1,0 +1,25 @@
+@model List<PrivateNotes.Entites.Note>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <ul>
+        @foreach (var note in Model)
+        {
+            <li>
+                @note.Content
+            </li>
+        }
+    </ul>
+</div>
+</body>
+</html>
