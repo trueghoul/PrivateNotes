@@ -23,10 +23,19 @@ public class UserServices : IUserServices
         _userRepository.Create(user);
         return true;
     }
-
-    public bool GetUser(string email, string password)
+    public bool HasUser(string email, string password)
     {
         var user = _userRepository.Get(u => u.Email == email && u.Password == password).FirstOrDefault();
         return user != null;
+    }
+
+    public int NumberOfNotes(string email)
+    {
+        return _userRepository.GetUserNotes(email).Count;
+    }
+
+    public int GetId(string email)
+    {
+        return _userRepository.Get(u => u.Email == email).FirstOrDefault().Id;
     }
 }

@@ -5,5 +5,7 @@ namespace PrivateNotes.Services;
 public interface INoteServices
 {
     IEnumerable<Note> GetAllNotes();
-    Note AddNote(string content, DateTime creationDate);
+    void AddNote(Note note);
+    IEnumerable<Note> GetUserNotes(string email);
+    bool DeleteNote(int id);
 }

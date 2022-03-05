@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PrivateNotes;
 using PrivateNotes.Entites;
 using PrivateNotes.Services;
@@ -12,8 +15,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<NotesDbContext>(options =>
     options.UseNpgsql(connectionString));
-
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login"));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,6 +39,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

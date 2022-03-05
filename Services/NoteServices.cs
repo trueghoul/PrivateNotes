@@ -7,10 +7,13 @@ namespace PrivateNotes.Services;
 public class NoteServices : INoteServices
 {
     private readonly INoteRepository _noteRepository;
+    private readonly IUserRepository _userRepository;
 
-    public NoteServices(INoteRepository noteRepository)
+    public NoteServices(INoteRepository noteRepository,
+        IUserRepository userRepository)
     {
         _noteRepository = noteRepository;
+        _userRepository = userRepository;
     }
 
     public IEnumerable<Note> GetAllNotes()
@@ -18,15 +21,24 @@ public class NoteServices : INoteServices
         return _noteRepository.Get();
     }
 
-    public Note AddNote(string content, DateTime creationDate)
+    public void AddNote(Note note)
     {
-        var note = new Note()
-        {
-            Content = content,
-            CreationDate = creationDate
-        };
         _noteRepository.Create(note);
-        //Изменить снизу проверку (мб юзать маппер хз)
-        return _noteRepository.Get(n => n.Content == note.Content).FirstOrDefault();
+    }
+
+    public IEnumerable<Note> GetUserNotes(string email)
+    {
+        return _userRepository.GetUserNotes(email).AsEnumerable();
+    }
+
+    public bool DeleteNote(int id)
+    {
+        var note = _noteRepository.Get(n => n.Id == id).FirstOrDefault();
+        if (note != null)
+        {
+            _noteRepository.Remove(note);
+            return true;
+        }
+        else return false;
     }
 }

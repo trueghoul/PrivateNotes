@@ -1,9 +1,7 @@
 @model List<PrivateNotes.Entites.Note>
-
 @{
-    Layout = null;
+    Layout = "_Master";
 }
-
 <!DOCTYPE html>
 
 <html>
@@ -12,14 +10,25 @@
 </head>
 <body>
 <div>
-    <ul>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Содержимое</th>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var note in Model)
         {
-            <li>
-                @note.Content
-            </li>
+            <tr>
+                <th scope="row" class="col-1">@note.CreationDate</th>
+                <td class="col-4 text-wrap">@note.Content</td>
+                <td class="col-1">@Html.ActionLink("Delete", "Delete", new{id = note.Id})</td>
+            </tr>
         }
-    </ul>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

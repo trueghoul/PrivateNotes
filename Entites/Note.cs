@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PrivateNotes.Entites;
 
 public class Note
